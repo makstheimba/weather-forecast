@@ -12,7 +12,8 @@ function getWeather(position) {
     $.ajax({
         url: test_data,//change this to request_URL after testing
         success: function (data) {
-            weather = JSON.parse(data);//delete this if using real request
+            weather = data;//delete this if using real request 
+            //weather = JSON.parse(data);
             //console.log(weather);
             let location = weather.name,
                 temp = weather.main.temp,
