@@ -1,5 +1,11 @@
-function handle_error(error) {
+function geolocation_error(error) {
     if (error.code === error.PERMISSION_DENIED) alert("Permission denied");
+}
+
+function geolocation_success(map){    
+    return function(position){
+        map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
+    };
 }
 
 function getWeather(position) {
@@ -7,8 +13,7 @@ function getWeather(position) {
         request_URL = "http://api.openweathermap.org/data/2.5/weather?lat=" +
         position.coords.latitude + "&lon=" + position.coords.longitude + "&appid=" + key_API,
         test_data = "data/weather.json",
-        weather = {};
-    
+        weather = {};    
     $.ajax({
         url: test_data,//change this to request_URL after testing
         success: function (data) {
@@ -33,9 +38,9 @@ function getWeather(position) {
     });
 }
 
-function getLocation() {
+function getLocation(map) {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getWeather, handle_error);
+        navigator.geolocation.getCurrentPosition(geolocation_success(map), geolocation_error);
     }
     else {
         alert("Navigation is not supported by your browser");
@@ -57,16 +62,24 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase()+this.slice(1);
 }
 
-$(document).ready(function () {
-    getLocation();
-    $("#temp").click(function (){
-        let cur = $(this).html(),
-            scale = cur[cur.length-1];
-        if (scale === String.fromCharCode(8451)){
-            $(this).html(fromCtoF(cur.slice(0,cur.length-1))+"&#8457;");
-        }
-        else {
-            $(this).html(fromFtoC(cur.slice(0,cur.length-1))+"&#8451;");
-        }
+function initMap() {
+    var myLatLng = {lat: 0, lng: 0};
+    return new google.maps.Map(document.getElementById('map'), {
+      center: myLatLng,
+      scrollwheel: false,
+      zoom: 4
     });
+
+    // Create a marker and set its position.
+    /*var marker = new google.maps.Marker({
+      map: map,
+      position: myLatLng,
+      title: 'Hello World!'
+    });*/
+  }
+
+$(document).ready(function () {
+    var map = initMap();
+    console.log('sss');
+    getLocation(map);
 });
