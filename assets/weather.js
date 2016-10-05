@@ -38,7 +38,7 @@ function getWeather(position) {
     });
 }
 
-function getLocation(map) {
+function setHomeLocation(map) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(geolocation_success(map), geolocation_error);
     }
@@ -47,39 +47,31 @@ function getLocation(map) {
     }
 }
 
-function fromKtoC(temp) {
-    return Math.round(temp-273.15);
-}
-
-function fromCtoF(temp) {
-    return Math.round(temp*1.8+32);
-}
-
-function fromFtoC(temp) {
-    return Math.round((temp-32)*.5556);
-}
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase()+this.slice(1);
-}
+function fromKtoC(temp) {return Math.round(temp-273.15);}
+function fromCtoF(temp) {return Math.round(temp*1.8+32);}
+function fromFtoC(temp) {return Math.round((temp-32)*.5556);}
+String.prototype.capitalize = function() {return this.charAt(0).toUpperCase()+this.slice(1);}
 
 function initMap() {
-    var myLatLng = {lat: 0, lng: 0};
-    return new google.maps.Map(document.getElementById('map'), {
-      center: myLatLng,
-      scrollwheel: false,
-      zoom: 4
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 0, lng: 0},
+        mapTypeId: "hybrid",
+        scrollwheel: false,
+        zoom: 4
+    }),
+        infoWindow = new google.maps.InfoWindow();
+    
+    map.addListener('click', function(event) {
+        var pos = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+        infoWindow.setPosition(pos);
+        infoWindow.setContent("weather");
+        infoWindow.open(map);        
     });
-
-    // Create a marker and set its position.
-    /*var marker = new google.maps.Marker({
-      map: map,
-      position: myLatLng,
-      title: 'Hello World!'
-    });*/
+    setHomeLocation(map);
+    return map;
   }
 
 $(document).ready(function () {
     var map = initMap();
-    console.log('sss');
-    getLocation(map);
+    //setHomeLocation(map);
 });
