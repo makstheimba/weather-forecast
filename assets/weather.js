@@ -22,10 +22,8 @@ function setHomeLocation(map, infoWindow, setPosition) {
 function setWeather(position, infoWindow) {
     var key_API = "79074fb5ab975a3c6212bf1622443b79",
         request_URL = "http://api.openweathermap.org/data/2.5/weather?lat=" +
-            position.lat + "&lon=" + position.lng + "&appid=" + key_API,
-        test_data = "data/weather.json";
+            position.lat + "&lon=" + position.lng + "&appid=" + key_API;
     $.ajax({
-        //url: test_data,//change this to request_URL after testing
         url: request_URL,
         success: function (weather) {
             console.log(weather);
@@ -78,10 +76,6 @@ function initMap() {
         infoWindow.open(map);
     });
 }
-
-//TODO
-
-//MPH TO KMH TRANSLATOR
 
 $(document).ready(function () {
     initMap();
