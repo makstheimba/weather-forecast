@@ -1,4 +1,41 @@
+h1{ 
+    text-align: right;
+    margin: 5px;
+    margin-bottom: 10px;
+    padding-left: 50px;
+}
+.weather-box{    
+    width: 260px;
+    border: 2px solid black;
+    padding-bottom: 10px;
+}
+.wh-box{
+    float: right;
+    margin-top: -5px;
+    margin-right: 5px;
+}
+.measure{
+    font-size: 80%;
+}
 #map{
     height: 100vh;
     width: 100vw;
+}
+#temp{
+    font-size: 50px;
+    display: inline-block;
+    padding-left: 10px;
+    width: 50%;
+    border-right: 1px solid black;
+}
+#weather-icon{
+    position: absolute;
+    top: -2px;    
+}
+#humid{
+    font-size: 30px;
+    text-align: right;
+}
+#wind{
+    font-size: 30px;
 }
